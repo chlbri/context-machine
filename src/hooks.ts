@@ -28,7 +28,7 @@ export function usePrepareContextMachine<
   return useInterpret(machine, options);
 }
 
-export function useContextMachineService<
+export function useContextMachineState<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -37,11 +37,11 @@ export function useContextMachineService<
   }
 >(
   Context: ContextMachineType<TContext, TEvent, TTypestate>
-): MachineType<TContext, TEvent, TTypestate>['service'] {
-  const _service = useContext(Context);
+): MachineType<TContext, TEvent, TTypestate>['state'] {
+  const service = useContext(Context);
 
-  const service = omit(_service, 'state', 'sender', 'send');
-  return service;
+  const [state] = useActor(service);
+  return state;
 }
 
 export function useContextMachineSender<
@@ -59,7 +59,7 @@ export function useContextMachineSender<
   return service.send;
 }
 
-export function useContextMachineState<
+export function useContextMachineService<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -68,11 +68,11 @@ export function useContextMachineState<
   }
 >(
   Context: ContextMachineType<TContext, TEvent, TTypestate>
-): MachineType<TContext, TEvent, TTypestate>['state'] {
-  const service = useContext(Context);
+): MachineType<TContext, TEvent, TTypestate>['service'] {
+  const _service = useContext(Context);
 
-  const [state] = useActor(service);
-  return state;
+  const service = omit(_service, 'state', 'sender', 'send');
+  return service;
 }
 
 export function useContextMachine<
