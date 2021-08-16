@@ -5,7 +5,6 @@ import {
   useSelector as useSelectorR,
 } from '@xstate/react';
 import { MaybeLazy, UseMachineOptions } from '@xstate/react/lib/types';
-import omit from 'lodash/omit';
 import { useContext as useContextR } from 'react';
 import {
   EventObject,
@@ -91,10 +90,39 @@ export function useCustomService<
 >(
   Context: ContextMachineType<TContext, TEvent, TTypestate>
 ): MachineType<TContext, TEvent, TTypestate>['custom_service'] {
-  const _service = useContextR(Context);
+  const {
+    getSnapshot,
+    id,
+    initialState,
+    off,
+    onChange,
+    onDone,
+    onEvent,
+    onSend,
+    onStop,
+    status,
+    stop,
+    subscribe,
+    sessionId,
+    toJSON,
+  } = useContextR(Context);
 
-  const service = omit(_service, 'state', 'sender', 'send');
-  return service;
+  return {
+    getSnapshot,
+    id,
+    initialState,
+    off,
+    onChange,
+    onDone,
+    onEvent,
+    onSend,
+    onStop,
+    status,
+    stop,
+    subscribe,
+    sessionId,
+    toJSON,
+  };
 }
 
 export function useContext<

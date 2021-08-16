@@ -8,6 +8,31 @@ import {
   StateMachine,
 } from 'xstate';
 
+export type CustomService<
+  TContext,
+  TEvent extends EventObject,
+  TTypestate extends Typestate<TContext> = {
+    value: any;
+    context: TContext;
+  }
+> = Pick<
+  Interpreter<TContext, any, TEvent, TTypestate>,
+  | 'getSnapshot'
+  | 'id'
+  | 'initialState'
+  | 'off'
+  | 'onChange'
+  | 'onDone'
+  | 'onEvent'
+  | 'onSend'
+  | 'onStop'
+  | 'status'
+  | 'stop'
+  | 'subscribe'
+  | 'sessionId'
+  | 'toJSON'
+>;
+
 export type MachineType<
   TContext,
   TEvent extends EventObject,
@@ -18,10 +43,7 @@ export type MachineType<
 > = {
   state: State<TContext, TEvent, any, TTypestate>;
   send: Interpreter<TContext, any, TEvent, TTypestate>['send'];
-  custom_service: Omit<
-    Interpreter<TContext, any, TEvent, TTypestate>,
-    'send' | 'sender' | 'state'
-  >;
+  custom_service: CustomService<TContext, TEvent, TTypestate>;
 };
 
 export type Selector<
