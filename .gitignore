@@ -61,7 +61,7 @@ typings/
 .eslintcache
 
 #package NPM
-dist/
+# dist/
 
 # Optional stylelint cache
 .stylelintcache
