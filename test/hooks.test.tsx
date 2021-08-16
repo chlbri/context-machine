@@ -1,13 +1,13 @@
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import React, { FC } from 'react';
 import {
-  useContextMachine,
-  usePrepareContextMachine
+  useContext,
+  usePrepare
 } from '../src/hooks';
 import { LightContext, lightMachine } from './helpers_test';
 
 describe('HOOK: usePrepareMachineContext', () => {
-  const hook = () => renderHook(() => usePrepareContextMachine(lightMachine));
+  const hook = () => renderHook(() => usePrepare(lightMachine));
   it('should prepare the Provider', () => {
     const { result } = hook();
     expect(result.current.state.matches('idle')).toBeTruthy();
@@ -35,11 +35,11 @@ describe('HOOK: usePrepareMachineContext', () => {
 
 describe('HOOK: useContextMachine', () => {
   const wrapper: FC = ({ children }) => {
-    const value = usePrepareContextMachine(lightMachine);
+    const value = usePrepare(lightMachine);
     return <LightContext.Provider {...{ value }}>{children}</LightContext.Provider>;
   };
 
-  const hook = () => renderHook(() => useContextMachine(LightContext), { wrapper });
+  const hook = () => renderHook(() => useContext(LightContext), { wrapper });
 
   it('should be defined', () => {
     const { result } = hook();

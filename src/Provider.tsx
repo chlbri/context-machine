@@ -6,7 +6,7 @@ import {
   MachineOptions,
   Typestate,
 } from 'xstate';
-import { usePrepareContextMachine } from './hooks';
+import { usePrepare } from './hooks';
 import { ContextMachineType } from './types';
 
 type Props<
@@ -36,7 +36,7 @@ export function MachineProvider<
   options,
 }: PropsWithChildren<Props<TContext, TEvent, TTypestate>>): JSX.Element {
   const service = useContext(Context);
-  const value = usePrepareContextMachine(service.machine, options);
+  const value = usePrepare(service.machine, options);
 
   return <Context.Provider {...{ value }}>{children}</Context.Provider>;
 }

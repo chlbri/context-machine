@@ -18,11 +18,21 @@ export type MachineType<
 > = {
   state: State<TContext, TEvent, any, TTypestate>;
   send: Interpreter<TContext, any, TEvent, TTypestate>['send'];
-  service: Omit<
+  custom_service: Omit<
     Interpreter<TContext, any, TEvent, TTypestate>,
     'send' | 'sender' | 'state'
   >;
 };
+
+export type Selector<
+  TContext,
+  TEvent extends EventObject,
+  TTypestate extends Typestate<TContext> = {
+    value: any;
+    context: TContext;
+  },
+  R = any
+> = (state: State<TContext, TEvent, any, TTypestate>) => R;
 
 export type ContextMachineType<
   TContext,
@@ -32,7 +42,6 @@ export type ContextMachineType<
     context: TContext;
   }
 > = Context<Interpreter<TContext, any, TEvent, TTypestate>>;
-
 
 export type GetContext<T> = T extends MaybeLazy<
   StateMachine<infer TC, any, any>
