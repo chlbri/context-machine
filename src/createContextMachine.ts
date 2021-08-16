@@ -3,10 +3,11 @@ import { UseMachineOptions } from '@xstate/react/lib/types';
 import { createContext } from 'react';
 import {
   EventObject,
-  interpret, InterpreterOptions,
+  interpret,
+  InterpreterOptions,
   MachineOptions,
   StateMachine,
-  Typestate
+  Typestate,
 } from 'xstate';
 
 export function createContextMachine<

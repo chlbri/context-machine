@@ -88,7 +88,7 @@ export default MyApp;
 
 <br/>
 
-## **useContextMachineState(Context: MachineContext)** : XState _State_
+## **useState(Context: MachineContext)** : XState _State_
 
 <br/>
 
@@ -97,7 +97,7 @@ As the name says, It returns the current state of the machine accross all compon
 <br/>
 <br/>
 
-## **useContextMachineSender(Context: MachineContext)** : XState _send_
+## **useSend(Context: MachineContext)** : XState _send_
 
 <br/>
 
@@ -106,7 +106,7 @@ As the name says, It returns the current state of the machine accross all compon
 <br/>
 <br/>
 
-## **useContextMachineService(Context: MachineContext)** : XState-custom _service_
+## **useService(Context: MachineContext)** : XState-custom _service_
 
 <br/>
 
@@ -117,7 +117,7 @@ As the name says, It returns the service of the machine accross all components.
 <br/>
 <br/>
 
-## **useContextMachine(Context: MachineContext)** : _Entire Mutable Machine_
+## **useContext(Context: MachineContext)** : _Entire Mutable Machine_
 
 <br/>
 
@@ -135,6 +135,21 @@ The value is :
   service: Custom_Service,
 
 };
+```
+
+<br/>
+<br/>
+
+## **useSelect(Context: MachineContext, selector: _StateSelector_)** : _Entire Mutable Machine_
+
+<br/>
+
+Only listen to the selected value
+
+The value is :
+
+```tsx
+const select: useSelector(LightContext, state => state.context.elapsed);
 ```
 
 <br/>

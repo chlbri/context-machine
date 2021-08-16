@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import React, { FC } from 'react';
-import { useContextMachine } from '../src/hooks';
+import { useContext } from '../src/hooks';
 import { MachineProvider } from '../src/Provider';
 import { LightContext } from './helpers_test';
 
@@ -10,7 +10,7 @@ describe('MachineProvider', () => {
   );
 
   const hook = () =>
-    renderHook(() => useContextMachine(LightContext), { wrapper });
+    renderHook(() => useContext(LightContext), { wrapper });
 
   it('should be defined', () => {
     const { result } = hook();
