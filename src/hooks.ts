@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { useActor, useInterpret } from '@xstate/react';
+import {
+  useActor,
+  useInterpret,
+  useSelector as useSelectorR,
+} from '@xstate/react';
 import { MaybeLazy, UseMachineOptions } from '@xstate/react/lib/types';
 import omit from 'lodash/omit';
-import { useContext } from 'react';
+import { useContext as useContextR } from 'react';
 import {
   EventObject,
   InterpreterOptions,
@@ -10,9 +14,9 @@ import {
   StateMachine,
   Typestate,
 } from 'xstate';
-import { ContextMachineType, MachineType } from './types';
+import { ContextMachineType, MachineType, Selector } from './types';
 
-export function usePrepareContextMachine<
+export function usePrepare<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -28,7 +32,7 @@ export function usePrepareContextMachine<
   return useInterpret(machine, options);
 }
 
-export function useContextMachineState<
+export function useState<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -38,13 +42,31 @@ export function useContextMachineState<
 >(
   Context: ContextMachineType<TContext, TEvent, TTypestate>
 ): MachineType<TContext, TEvent, TTypestate>['state'] {
-  const service = useContext(Context);
+  const service = useContextR(Context);
 
   const [state] = useActor(service);
   return state;
 }
 
-export function useContextMachineSender<
+export function useSelector<
+  TContext,
+  TEvent extends EventObject,
+  TTypestate extends Typestate<TContext> = {
+    value: any;
+    context: TContext;
+  },
+  R = any
+>(
+  Context: ContextMachineType<TContext, TEvent, TTypestate>,
+  selector: Selector<TContext, TEvent, TTypestate, R>
+): R {
+  const service = useContextR(Context);
+
+  const _out = useSelectorR(service, selector);
+  return _out;
+}
+
+export function useSend<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -54,12 +76,12 @@ export function useContextMachineSender<
 >(
   Context: ContextMachineType<TContext, TEvent, TTypestate>
 ): MachineType<TContext, TEvent, TTypestate>['send'] {
-  const service = useContext(Context);
+  const service = useContextR(Context);
 
   return service.send;
 }
 
-export function useContextMachineService<
+export function useCustomService<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -68,14 +90,14 @@ export function useContextMachineService<
   }
 >(
   Context: ContextMachineType<TContext, TEvent, TTypestate>
-): MachineType<TContext, TEvent, TTypestate>['service'] {
-  const _service = useContext(Context);
+): MachineType<TContext, TEvent, TTypestate>['custom_service'] {
+  const _service = useContextR(Context);
 
   const service = omit(_service, 'state', 'sender', 'send');
   return service;
 }
 
-export function useContextMachine<
+export function useContext<
   TContext,
   TEvent extends EventObject,
   TTypestate extends Typestate<TContext> = {
@@ -86,9 +108,9 @@ export function useContextMachine<
   Context: ContextMachineType<TContext, TEvent, TTypestate>
 ): MachineType<TContext, TEvent, TTypestate> {
   const out = {
-    state: useContextMachineState(Context),
-    send: useContextMachineSender(Context),
-    service: useContextMachineService(Context),
+    state: useState(Context),
+    send: useSend(Context),
+    custom_service: useCustomService(Context),
   };
 
   return out;
