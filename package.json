@@ -3,6 +3,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "description": "Use your machine through the entrie app",
   "files": [
     "dist",
     "src"

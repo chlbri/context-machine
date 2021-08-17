@@ -140,7 +140,7 @@ The value is :
 <br/>
 <br/>
 
-## **useSelect(Context: MachineContext, selector: _StateSelector_)** : _Entire Mutable Machine_
+## **useSelect(Context: MachineContext, selector: _StateSelector_)** : _Select "wyw" inside the state_
 
 <br/>
 
