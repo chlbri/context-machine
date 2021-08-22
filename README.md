@@ -39,7 +39,7 @@ This function is used to initialize the Context with a mutable service. It’s f
 
 ##### Secondly,
 
-## **MachineProvider(Context: MachineContext, children:ReactNode, options:MachineOprions)** : _JSX.Element_
+## **MachineProvider(Context: MachineContext, children:ReactNode, options:MachineOptions)** : _JSX.Element_
 
 <br/>
 
@@ -140,7 +140,7 @@ The value is :
 <br/>
 <br/>
 
-## **useSelect(Context: MachineContext, selector: _StateSelector_)** : _Select "wyw" inside the state_
+## **useSelector(Context: MachineContext, selector: _StateSelector_)** : _Select "wyw" inside the state_
 
 <br/>
 
