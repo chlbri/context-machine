@@ -110,6 +110,87 @@ export const lightMachine = createMachine<typeof context, LightEvent>(
   }
 );
 
-export const LightContext = createContextMachine(lightMachine);
-export const RemoteContext = createContextMachine(remoteMachine);
+export const LightContext = createContextMachine<typeof context, LightEvent>(
+  {
+    initial: 'idle',
+    context,
+    states: {
+      idle: {
+        on: {
+          TIMER: {
+            target: 'green',
+            actions: 'inc',
+          },
+        },
+      },
+      green: {
+        on: {
+          TIMER: {
+            target: 'yellow',
+            actions: 'inc',
+          },
+        },
+      },
+      yellow: {
+        on: {
+          TIMER: { target: 'red', actions: 'inc' },
+        },
+      },
+      red: {
+        initial: 'walk',
+        states: {
+          walk: {
+            entry: 'setCanSearch',
 
+            on: {
+              TIMER: {
+                target: 'stop',
+                cond: 'searchValid',
+                actions: ['inc', 'spawn'],
+              },
+            },
+          },
+
+          stop: {
+            id: 'red_stop',
+          },
+        },
+        on: {
+          TIMER: {
+            target: 'green',
+            in: '#red_stop',
+            actions: ['inc', 'sendTo', 'setCannotSearch'],
+          },
+        },
+      },
+    },
+  },
+  {
+    guards: {
+      searchValid: ({ canWalk }) => canWalk,
+    },
+    actions: {
+      setCanSearch: assign({
+        canWalk: _ => true,
+      }),
+      setCannotSearch: assign({
+        canWalk: _ => false,
+      }),
+      inc: assign({
+        elapsed: ({ elapsed }) => {
+          return ++elapsed;
+        },
+      }),
+      spawn: assign({
+        spawn: () => spawn(remoteMachine),
+      }),
+      forwardTo: forwardTo(ctx => ctx.spawn),
+      sendTo: send('WAKE', { to: ctx => ctx.spawn }),
+    },
+  }
+);
+
+export const RemoteContext = createContextMachine(
+  remoteMachine.config,
+  remoteMachine.options
+);

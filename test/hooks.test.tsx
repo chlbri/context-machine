@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-hooks/dom';
 import React, { FC } from 'react';
-import { useContext, useSelector, usePrepare, useSend } from '../src/hooks';
+import { useContext, usePrepare, useSelector, useSend } from '../src/hooks';
 import { LightContext, lightMachine } from './helpers_test';
 
 describe('HOOK: usePrepare', () => {
