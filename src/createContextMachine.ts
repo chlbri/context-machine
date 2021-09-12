@@ -7,7 +7,8 @@ import {
   interpret,
   InterpreterOptions,
   MachineConfig,
-  MachineOptions, Typestate
+  MachineOptions,
+  Typestate,
 } from 'xstate';
 import { Model } from 'xstate/lib/model.types';
 

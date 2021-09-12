@@ -11,7 +11,7 @@ Use a machine across the entire app.
 
 ##### First,
 
-### **createContextMachine (_machine_:StateMachine, _options_:MachineOptions)** : _React.Context_ <Interpreter>
+### **createContextMachine (_config_: MachineConfig, _options_ :MachineOptions)** : _React.Context_ <Interpreter>
 
 <br/>
 

@@ -1,10 +1,12 @@
 import React, { createContext, useContext as useContext$1 } from 'react';
-import { interpret } from 'xstate';
+import { createMachine, interpret } from 'xstate';
 import { useInterpret, useActor, useSelector as useSelector$1 } from '@xstate/react';
 
 function createContextMachine( // eslint-disable-next-line @typescript-eslint/no-unused-vars
-machine, options) {
-  return createContext(interpret(machine, options));
+config, options) {
+  var machine = createMachine(config, options);
+  var service = interpret(machine);
+  return createContext(service);
 }
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */

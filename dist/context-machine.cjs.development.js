@@ -10,8 +10,10 @@ var xstate = require('xstate');
 var react = require('@xstate/react');
 
 function createContextMachine( // eslint-disable-next-line @typescript-eslint/no-unused-vars
-machine, options) {
-  return React.createContext(xstate.interpret(machine, options));
+config, options) {
+  var machine = xstate.createMachine(config, options);
+  var service = xstate.interpret(machine);
+  return React.createContext(service);
 }
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
