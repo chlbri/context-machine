@@ -24,7 +24,8 @@
     "rm": "rimraf node_modules",
     "yarn": "yarn install",
     "cache-clean": "yarn cache clean",
-    "rinit": "yarn run rm && yarn run cache-clean && yarn install && yarn run test"
+    "rinit": "yarn run rm && yarn run cache-clean && yarn install && yarn run test",
+    "publish": "yarn publish"
   },
   "peerDependencies": {
     "@types/react": "^17.0.17",
